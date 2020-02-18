@@ -11,7 +11,9 @@ import ObjectMapper
 
 infix operator <-
 
-class User: NSObject, Mappable, NSCoding {
+class User: NSObject, Mappable, NSCoding, NSSecureCoding {
+    
+    static var supportsSecureCoding: Bool = true
     
     var id: Int = 0
     var name: String = ""
@@ -37,7 +39,6 @@ class User: NSObject, Mappable, NSCoding {
         country <- map["country"]
         balance <- map["balance"]
         photo <- map["photo"]
-
         portfolio_value <- map["portfolio_value"]
         super_angel <- map["super_angel"]
         authUID <- map["uid"]
@@ -60,7 +61,6 @@ class User: NSObject, Mappable, NSCoding {
         self.photo = decoder.decodeObject(forKey: "photo") as! String
         self.portfolio_value = decoder.decodeObject(forKey: "portfolio_value") as! String
         self.super_angel = decoder.decodeInteger(forKey: "super_angel")
-        
         self.authUID  = decoder.decodeObject(forKey: "authUID") as! String
         self.accessToken = decoder.decodeObject(forKey: "accessToken") as! String
         self.tokenValidity = decoder.decodeObject(forKey: "tokenValidity") as! String

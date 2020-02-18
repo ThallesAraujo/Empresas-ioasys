@@ -15,19 +15,16 @@ class EnterpriseService{
     class func getEnterprises(success: @escaping (_ enterprises: [Enterprise]) -> Void, failure: @escaping (_ error: String) -> Void){
         
         Network.request(url: APIHelper.ENTERPRISES.getURL(), method: .get, completion: { (response) in
-            guard let statusCode = response.response?.statusCode, statusCode == 200 else {
-                failure("There was a failure in retrieving data")
-                return
-            }
-            
-            guard let json = response.result.value as? [String:Any], let list = json["enterprises"] as? [[String:Any]] else{
-                failure("Invalid JSON")
-                return
-            }
-            
-            
-            let enterprises = Mapper<Enterprise>().mapArray(JSONArray: list)
-            success(enterprises)
+            StatusCodeHelper.handleResponse(response: response, success: {
+                guard let json = response.result.value as? [String:Any], let list = json["enterprises"] as? [[String:Any]] else{
+                    failure("JSON Inválido")
+                    return
+                }
+                let enterprises = Mapper<Enterprise>().mapArray(JSONArray: list)
+                success(enterprises)
+            }, error: {error in
+                failure(error)
+            })
             
         }, failure: {error in
             failure(error)

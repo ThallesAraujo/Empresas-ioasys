@@ -9,16 +9,11 @@
 import Foundation
 class SessionHelper{
     
-    let defaults = UserDefaults.standard
-    
-    
     static func loadUser() -> User {
         let defaults = UserDefaults.standard
-        
         var user : User = User()
-        
         if let encodedUser = defaults.data(forKey: "user") {
-            user = NSKeyedUnarchiver.unarchiveObject(with: encodedUser) as! User
+            user = try! NSKeyedUnarchiver.unarchivedObject(ofClass: User.self, from: encodedUser)!
             return user
         } else {
             return user
@@ -27,18 +22,15 @@ class SessionHelper{
     
     static func setUser(user: User?) {
         let defaults = UserDefaults.standard
-        let encodedUser: NSData = NSKeyedArchiver.archivedData(withRootObject: user) as NSData
+        let encodedUser: NSData = try! NSKeyedArchiver.archivedData(withRootObject: user!, requiringSecureCoding: true) as NSData
         defaults.set(encodedUser, forKey: "user")
         defaults.synchronize()
     }
     
     static func removeUser() {
         let defaults = UserDefaults.standard
-        
-        
         let user : User = User()
-        let encodedUser: NSData = NSKeyedArchiver.archivedData(withRootObject: user) as NSData
-        
+        let encodedUser: NSData = try! NSKeyedArchiver.archivedData(withRootObject: user, requiringSecureCoding: true) as NSData
         defaults.set(encodedUser, forKey: "user")
         defaults.synchronize()
     }

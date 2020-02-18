@@ -30,8 +30,6 @@ class ConfigScheme{
                 return dic[key] as? String ?? ""
             }
         }
-        
         return ""
     }
-    
 }

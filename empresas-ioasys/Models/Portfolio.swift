@@ -14,7 +14,6 @@ class Portfolio: Mappable{
     var enterprises_number: Int = 0
     var enterprises: [Enterprise] = []
     
-    
     required convenience init?(map: Map) {
         self.init()
     }

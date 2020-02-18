@@ -22,28 +22,9 @@ class MainCoordinator: Coordinator {
     
     func start() {
         let vc = VCLogin.instantiate()
-        vc.coordinator = self
+        vc.coordinator = LoginCoordinator(navigationController: self.navigationController)
         navigationController.pushViewController(vc, animated: false)
-    }
-    
-    func goToVCEnterprises(){
-        let vc = VCEnterprises.instantiate()
-        vc.coordinator = self
-        navigationController.pushViewController(vc, animated: true)
-        navigationController.viewControllers.remove(at: 0)
-    }
-    
-    func goToEnterpriseDetails(enterprise: Enterprise?){
-        let vc = VCEnterpriseDetails.instantiate()
-        vc.setup(enterprise: enterprise, coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    func sessionExpired(){
-        let vc = VCLogin.instantiate()
-        vc.sessionExpired = true
-        vc.coordinator = self
-        navigationController.pushViewController(vc, animated: false)
+        self.childCoordinators.append(vc.coordinator!)
     }
 
 }

@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import SystemConfiguration
 
-//AlamoFire helper with network-check
+//Alamofire helper with network-check
 
 class Network{
     
@@ -22,7 +22,7 @@ class Network{
         ]
         
         if !self.isConnected(){
-            noNetworkCompletion("There's no internet connection")
+            noNetworkCompletion("Não há conexão com a internet.")
         }else{
             Alamofire.request(APIHelper.AUTH.getURL(), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { (response) in
                 printLog(response: response)
@@ -31,11 +31,10 @@ class Network{
         }
     }
     
-    
     static func request(url: URL, method: HTTPMethod, parameters: Parameters? = nil, encoding: ParameterEncoding = JSONEncoding.default, headers: [String: String]? = nil, completion: @escaping (DataResponse<Any>) -> Void, failure: @escaping(String) -> Void,  noNetworkCompletion: @escaping(String) -> Void){
         
         if !self.isConnected(){
-            noNetworkCompletion("There's no internet connection")
+            noNetworkCompletion("Não há conexão com a internet.")
         }else{
             self.defaultHeaders(success: { (defaultHeaders) in
                 
@@ -92,15 +91,23 @@ class Network{
 
         if SessionHelper.loadUser().accessToken != ""{
             
-            if SessionHelper.loadUser().authUID != "" && SessionHelper.loadUser().clientID != ""{
-                headers["access-token"] = SessionHelper.loadUser().accessToken
-                headers["client"] = SessionHelper.loadUser().clientID
-                headers["uid"] = SessionHelper.loadUser().authUID
-                success(headers)
+            let tokenValidity = Double(SessionHelper.loadUser().tokenValidity)
+            let tokenExpirationTime = NSDate.init(timeIntervalSince1970: tokenValidity!)
+            let currentDate = NSDate()
+            
+            if currentDate.timeIntervalSince(tokenExpirationTime as Date) > 0{
+                error("Expired session")
             }else{
-                error("Invalid session")
-            }
+                if SessionHelper.loadUser().authUID != "" && SessionHelper.loadUser().clientID != ""{
+                    headers["access-token"] = SessionHelper.loadUser().accessToken
+                    headers["client"] = SessionHelper.loadUser().clientID
+                    headers["uid"] = SessionHelper.loadUser().authUID
+                    success(headers)
+                }else{
+                    error("Invalid session")
+                }
 
+            }
         }else{
             error("Invalid session")
         }
@@ -124,13 +131,10 @@ class Network{
             return false
         }
         
-        
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
         let ret = (isReachable && !needsConnection)
-        
         return ret
-        
     }
     
     

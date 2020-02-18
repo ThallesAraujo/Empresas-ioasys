@@ -16,18 +16,11 @@ enum APIHelper: String{
     
     func getURL(_ parameters: [String] = []) -> URL {
         let host = ConfigScheme.API_URL //Replace for variables defined in ConfigScheme
-        
-        
         var service = self.rawValue
         if parameters.count > 0 {
             service = String(format: self.rawValue, arguments: parameters)
         }
-        
-        let urlString = "\(host)\(service)" //+any_necessary_parameter
-       
+        let urlString = "\(host)\(service)"
         return URL(string: urlString)!
     }
-    
-    
-    
 }

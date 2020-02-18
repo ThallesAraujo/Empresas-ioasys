@@ -8,7 +8,8 @@
 
 import Foundation
 import ObjectMapper
-class EnterpriseType{
+infix operator <- 
+class EnterpriseType: Mappable{
     
     var id: Int = 0
     var enterprise_name_type: String = ""
