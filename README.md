@@ -1,6 +1,24 @@
 ![N|Solid](logo_ioasys.png)
 
-# README #
+
+# Implementação neste repositório
+
+## Screenshots
+
+![alt text](./screenshots/login-and-main.png "Logo")
+![alt text](./screenshots/search-and-details.png "Logo")
+
+## Frameworks, ferramentas e linguagens:
+
+- Swift 5/XCode 11
+- CocoaPods para gerenciamento de dependências
+- Alamofire (requisições REST)
+- Kingfisher (Download de imagens)
+- ObjectMapper (mapeamento de JSON para objetos Swift)
+- Padrão de projeto Coordinator
+- Classes customizadas para requisição (RequestHandlers)
+
+# Dados originais do desafio #
 
 Estes documento README tem como objetivo fornecer as informações necessárias para realização do projeto Empresas.
 
@@ -17,24 +35,5 @@ Estes documento README tem como objetivo fornecer as informações necessárias 
 	* Para ter acesso as demais APIS precisamos enviar esses 3 custom headers para a API autorizar a requisição;
 * Listagem de Empresas
 * Detalhamento de Empresas
-
-### Informações Importantes ###
-
-* Layout e recortes disponíveis no Zeplin (http://zeplin.io)
-teste_ios
-15ioasys86
-
-* Integração disponível a partir de uma collection para Postman (https://www.getpostman.com/apps) disponível neste repositório.
-
-* Independente de onde conseguiu chegar no teste é importante disponibilizar seu fonte para analisarmos.
-
-### Dados para Teste ###
-
-* Servidor: https://empresas.ioasys.com.br/api
-* Versão da API: v1
-* Usuário de Teste: testeapple@ioasys.com.br
-* Senha de Teste : 12341234
-
-### Dicas ###
 
 * Temos um framework muito completo que pode te ajudar em tudo: https://github.com/JotaMelo/iOSHelpers-Swift ou https://github.com/JotaMelo/iOSHelpers
